@@ -1,0 +1,34 @@
+name: Deploy Databricks
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Verificar CLI
+        run: databricks --version
+
+      - name: Validar Bundle
+        run: databricks bundle validate -t dev
+
+      - name: Deploy no Databricks
+        run: databricks bundle deploy -t dev
+
+      - name: Executar Job
+        run: databricks bundle run teste_esteira -t dev
