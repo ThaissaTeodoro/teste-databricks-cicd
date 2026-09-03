@@ -5,16 +5,6 @@ include:
   - resources/*.yml
 
 targets:
-
   dev:
     default: true
-
     mode: development
-
-    workspace:
-      host: ${var.databricks_host}
-
-variables:
-
-  databricks_host:
-    description: URL do workspace Databricks
